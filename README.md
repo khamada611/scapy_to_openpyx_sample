@@ -44,11 +44,11 @@ For example,
 #python scapy_to_xls_httpsampple.py [pcap filename] [port] [excel filename(option)]
 python scapy_to_xls_http_sample.py sample.pcap 80 output.xlsx
 ```
-This repository includes sample capture file(sample.pcap). In this example ,  this program makes get output.xlsx. If you capture another HTTP, you can analyze your HTTP traffic.
+This repository includes sample capture file(sample.pcap). In this example ,  this program makes output.xlsx. If you capture another HTTP, you can analyze your HTTP traffic.
 
 Sample pcap is captured file I accessed kame.net
 
-## About these source code
+## About source code
 
 |Filename|Description|
 |:-----------|:------------|
