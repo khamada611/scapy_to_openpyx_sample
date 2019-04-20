@@ -48,6 +48,16 @@ class ExcelWapper:
 
         """
         self.book = openpyxl.Workbook()
+    
+    def reload_book(self, filename):
+        """Reload existing book.
+
+        Parameters
+        ----------
+        filename : str
+            xlsx's name
+        """
+        self.book = openpyxl.load_workbook(filename)
 
     def create_sheet(self, name):
         """Create excel sheet.
@@ -59,6 +69,28 @@ class ExcelWapper:
         """
         self.sheet = self.book.create_sheet(name, 0)
 
+    def select_sheet(self, select_name):
+        """Select existing file.
+
+        Parameters
+        ----------
+        name : str
+            Sheet name
+
+        Returns
+        -------
+        selected : bool
+            True  : found sheet. 
+            False : can't find name's sheet
+        """
+        sheetnames = self.book.get_sheet_names()
+        for name in sheetnames:
+            sheet_name = name
+            if select_name == sheet_name:
+                self.sheet = self.book[name]
+                return True
+        return False
+
     def write_value(self, x, y, value):
         """Write value to sheet.
 
@@ -69,8 +101,23 @@ class ExcelWapper:
         y : int
             y pos (1, 2, ...)
         value : 
+            value(I guess it is double or int(raw) or string ..?) 
+        """
+        self.sheet.cell(row=y, column=x, value=value)
+
+    def write_int_value(self, x, y, value):
+        """Write with <#,##0> format int value to sheet.
+
+        Parameters
+        ----------
+        x : int
+            x pos (A=1, B=2,  ...)
+        y : int
+            y pos (1, 2, ...)
+        value : 
             value(I guess it is double or int or string ..?) 
         """
+        self.sheet.cell(row=y, column=x).number_format = "#,##0"
         self.sheet.cell(row=y, column=x, value=value)
 
     def resize_sheet_width(self):
@@ -92,7 +139,7 @@ class ExcelWapper:
             pos = self.__get_xpos(x)
             self.sheet.column_dimensions[pos].width = max_width
 
-    def draw_table(self, x, x_size, y, y_size):
+    def draw_table(self, x, x_size, y, y_size, paint_title = True):
         """Draw table by PatternFill and Border
 
         Parameters
@@ -105,11 +152,13 @@ class ExcelWapper:
             y pos (1, 2, ...)
         y_size : int
             num of cell
+        paint_title : Bool (option)
+            paint 1st line
         """
         title_y = y
         for col_num in range(x, x + x_size):
             for row_num in range(y, y + y_size):
-                if row_num == title_y:
+                if row_num == title_y and paint_title == True:
                     self.sheet.cell(
                         row=row_num, column=col_num).fill = self.title_fill
                 else:

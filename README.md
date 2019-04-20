@@ -85,6 +85,19 @@ packets = rdpcap(pcap_filename)
 print (packets[packet_number].show())
 ```
 
+### Filtering sample 
+
+```py
+def filtering_sample(name): # name is "xxxxxx.pcap"
+
+    def filter(p): return TCP in p and p[TCP].dport == 80
+    packets = rdpcap(name).filter(filter)
+
+    for packet in packets:
+        print(packet.summary())
+    packets[0].show()
+```
+
 ## Licences
 
 THIS IMAGEFILE IS LICENCED.
