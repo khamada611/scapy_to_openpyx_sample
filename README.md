@@ -85,7 +85,7 @@ packets = rdpcap(pcap_filename)
 print (packets[packet_number].show())
 ```
 
-### dump sample 
+### Dump sample 
 
 ```py
 #!/usr/bin/env python
