@@ -85,9 +85,35 @@ packets = rdpcap(pcap_filename)
 print (packets[packet_number].show())
 ```
 
+### dump sample 
+
+```py
+#!/usr/bin/env python
+
+from scapy.all import *
+
+def packetdump_sample(name): # name is "xxxxxx.pcap"
+
+    number = 1
+    packets = rdpcap(name)
+
+    for packet in packets:
+        print(number, " :", packet.summary())
+        number += 1
+        if Raw in packet:
+            print(packet[Raw])
+   
+    #packets[0].show() # If you want to check detai data, you can check like this.
+
+```
+
 ### Filtering sample 
 
 ```py
+#!/usr/bin/env python
+
+from scapy.all import *
+
 def filtering_sample(name): # name is "xxxxxx.pcap"
 
     def filter(p): return TCP in p and p[TCP].dport == 80
@@ -95,7 +121,8 @@ def filtering_sample(name): # name is "xxxxxx.pcap"
 
     for packet in packets:
         print(packet.summary())
-    packets[0].show()
+    
+    #packets[0].show() # If you want to check detai data, you can check like this.
 ```
 
 ## Licences
